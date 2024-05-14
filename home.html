@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send MQTT Message</title>
+<link rel="stylesheet" href="home.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+<h2>User Data</h2>
+<br><br>
+<form id="mqttForm">
+  <label for="topic">Name:</label>
+  <input type="text" id="topic" name="topic" required><br><br><br>
+  <label for="value">Gender:</label>
+  <input type="text" id="value" name="value" required><br><br>
+  <div class="btn">
+  <button type="submit">Send Message</button><br><br>
+  <button type="button" id="receive">Receive Message</button>
+</div>
+  
+</form>
+</div>
+<script>
+$(document).ready(function(){
+  $('#mqttForm').submit(function(event){
+    event.preventDefault(); // Prevent the form from submitting normally
+
+    // Get form data
+    var formData = {
+      'topic': $('#topic').val(),
+      'value': $('#value').val()
+    };
+
+    // Send data to backend endpoint
+    $.ajax({
+      type: 'POST',
+      url: 'http://127.0.0.1:5000/send',
+      data: JSON.stringify(formData),
+      contentType: 'application/json',
+      success: function(response) {
+        console.log('Message sent successfully:', response);
+        alert('Message sent successfully!');
+        $('#mqttForm')[0].reset();
+      },
+      error: function(xhr, status, error) {
+        console.error('Error sending message:', error);
+        alert('Error sending message! Please try again.');
+      }
+    });
+  });
+
+  $('#receive').click(function() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:5000/receive',
+      success: function(response) {
+        console.log('Message received successfully:', response);
+        alert('Message received successfully and stored in the database.');
+      },
+      error: function(xhr, status, error) {
+        console.error('Error receiving message:', error);
+        alert('Error receiving message! Please try again.');
+      }
+    });
+   
+  });
+});
+</script>
+
+</body>
+</html>
