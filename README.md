@@ -41,7 +41,7 @@ Prerequisites:
  - > Ensure you have Python installed on your system.
  - > Make sure RabbitMQ and MongoDB are installed and running successfully on your local system.
  Step 1 : Clone the repository to your local machine:
- - git clone <repository_url>
+ - git clone https://github.com/avnichauhan12/IoT_Data_Handling_System.git
 Step 2 : Navigate to the project directory:
  - cd iot_data_handling_system
 Step 3 : Install the required Python dependencies:
