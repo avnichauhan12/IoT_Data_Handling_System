@@ -1,4 +1,4 @@
-                                                                                IoT Data Handling System
+                                     IoT Data Handling System
 
 Project Description:
 
