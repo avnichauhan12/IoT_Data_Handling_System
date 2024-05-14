@@ -1,4 +1,6 @@
                                      IoT Data Handling System
+![Architecture Diagram](./pic.png)
+
 
 Project Description:
 
