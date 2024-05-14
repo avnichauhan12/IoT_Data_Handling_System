@@ -34,36 +34,26 @@ def process_message(body):
     # Process the incoming MQTT message
     try:
         data = json.loads(body)
-        # Perform validation, transformation, etc. as needed
-        # For simplicity, we'll just insert the message into MongoDB
         collection.insert_one(data)
         print("Message processed and inserted into MongoDB:", data)
     except Exception as e:
         print("Error processing message:", e)
 
 def callback(ch, method, properties, body):
-    # Callback function to handle incoming MQTT messages
     process_message(body)
 
 def receive_rabbitmq():
     global active
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
-
-    # Declare the RabbitMQ queue
     channel.queue_declare(queue=RABBITMQ_QUEUE)
 
     # Set up consumer to receive messages
     for method_frame, properties, body in channel.consume(RABBITMQ_QUEUE, auto_ack=True):
-        # Process the message
         process_message(body)
-        # If receiving_active is False, cancel consuming
         if not active:
             break
-
-    # Close the connection
     connection.close()
-    # Reset receiving_active flag
     active = False
 
 @app.route('/')
